@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <title>WCOFUN.com Site</title>
+    <title>olympicpistol.com Site</title>
     <!-- MDB icon -->
     <link rel="icon" href="https://vegamovies.pages.dev/img/mdb-favicon.ico" type="image/x-icon" />
     <!-- Font Awesome -->
@@ -23,7 +23,7 @@
 
     <nav class="navbar navbar-light bg-light">
         <div class="container-fluid">
-            <a class="navbar-brand">WCOFUN.com Site</a>
+            <a class="navbar-brand">olympicpistol.com Site</a>
 
             <div class="input-group d-flex w-auto">
                 <div class="form-outline">
@@ -150,7 +150,7 @@
     <h5 class="card-title">${i['name']}</h5>
     ${i['description']}
     <br>
-    <button class="btn btn-primary" onClick="loadEpisodes(${i['id']})">Episodes</button>
+    <button class="btn btn-primary" onClick="loadEpisodes(${i['id']})">POSTS</button>
   </div>
 </div>
 </div>
@@ -203,7 +203,7 @@
     <h5 class="card-title">${i['name']}</h5>
     ${i['description']}
     <br>
-    <button class="btn btn-primary" onClick="loadEpisodes(${i['id']})">Episodes</button>
+    <button class="btn btn-primary" onClick="loadEpisodes(${i['id']})">POSTS</button>
   </div>
 </div>
 </div>
@@ -245,16 +245,42 @@
                     var res = "<button class='btn btn-primary' onClick='initAgain()'>Go Back</button>";
 
 
+                    
 
                     obj.forEach((i) => {
+                        var content = i['content']['rendered'];
+              content = content.replaceAll('/download/?key=', 'https://flaskstreamer.lolhoinc.repl.co/olamov?key=');
+
+
                         res = res + `
                  
-  <div class="col-lg-4 col-md-6 col-sm-12 ">
-    <div class="card" style="margin:5px">
-  <div class="card-body">
-    <h5 class="card-title">${i['title']['rendered']}</h5>
-    <button class="btn btn-primary" onClick="loadSingleEpisode('${i['link']}',${catid})">Open</button>
-  </div>
+                        <!-- Modal -->
+<div class="modal fade" id="modal${i.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal-dialog modal-xl">
+<div class="modal-content bg-dark text-white">
+<div class="modal-header">
+  <h5 class="modal-title" id="exampleModalLabel">${i['title']['rendered']}</h5>
+  <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+</div>
+<div class="modal-body">${content}</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+</div>
+</div>
+</div>
+</div>
+    
+<div class="col-lg-3 col-md-6 col-sm-12 ">
+<div class="card">
+<div class="bg-image hover-overlay ripple" data-mdb-ripple-color="light">
+<a href="#!">
+<div class="mask" style="background-color: rgba(251, 251, 251, 0.15);"></div>
+</a>
+</div>
+<div class="card-body">
+<h5 class="card-title">${i['title']['rendered']}</h5>
+<button class="btn btn-primary" data-mdb-toggle="modal" data-mdb-target="#modal${i.id}">OPEN</button>
+</div>
 </div>
 </div>
   `;
@@ -286,85 +312,6 @@ function getDecoded(){
 		return	localStorage.getItem("mrdecode");
 }
 
-
-        function loadSingleEpisode(singleEpisodeurl, animeId) {
-
-
-            document.getElementById('mainContent').innerHTML = ``;
-            document.getElementById("Loader").style = "";
-
-            singleEpisodeurl = singleEpisodeurl.replace("https://","");
-            makeRequest("GET", "https://proxy.goincop1.workers.dev/https/" + singleEpisodeurl).then(response => {
-                if (response.status == 200) {
-                    console.log(response.responseText);
-
-                    var obj = response.responseText;
-
-
-//                     var rep1 = '!=';
-//                     obj = obj.replaceAll(rep1,"==");
-
-//     document.getElementById("Loader").style = "display:none!important";
-//     var res = `<button class='btn btn-primary' onClick="loadEpisodes(${animeId})">Go Back</button>`;
-
-//     const parser = new DOMParser();
-//    var doc = parser.parseFromString(obj, "text/html");
-
-
-// var scripts = doc.getElementsByTagName("script");
-
-// console.log(scripts);
-
-
-// var finalScript = scripts[5].innerHTML;
-
-
-// //for (var i = 0; i < scripts.length; i++) {
-//  // if (scripts[i].innerHTML && scripts[i].innerHTML.includes("var HYO =")) {
-//   //	console.log(i, scripts[i].innerHTML);
-//   //    finalScript = scripts[i].innerHTML;
-//     //  console.log(finalScript);
-//    //   break;
-//  // } 
-// //}
-
-
-// finalScript = finalScript.replace('document.write','setdecodedData');
-
-// eval(finalScript);
-
-// var decoded = getDecoded();
- 
- 
-//  doc = parser.parseFromString(decoded, "text/html");
- 
-// var srcf = doc.getElementsByTagName("iframe")[0].src;
-
-// srcf = srcf.replace("https://wcofun.pages.dev/","");
-
-// srcf = "https://wcofun.com/"+ srcf;
-
-  
-  
-//   var res2 = `
-//       <iframe allowfullscreen="allowfullscreen" src="${srcf}" frameborder="0" height="600px" width="100%"></iframe>
-//   `;
-
-
-// res = res + res2;
-
-
-
-    document.getElementById('mainContent').innerHTML = obj;
-    }
-
-
-    });
-
-
-
-
-    }
 
     </script>
 </body>
